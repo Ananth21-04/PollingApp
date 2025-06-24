@@ -1,0 +1,48 @@
+<div class="container mt-4">
+  <h2 class="text-center">Create Poll</h2>
+
+  <div class="mb-3">
+    <input
+      [(ngModel)]="newPoll.question"
+      placeholder="Poll Question"
+      class="form-control"
+      required
+    />
+  </div>
+
+  <div *ngFor="let option of newPoll.options; let i = index; trackBy: trackByIndex" class="input-group mb-2">
+    <input
+      [(ngModel)]="option.voteOption"
+      placeholder="Option"
+      class="form-control"
+      required
+    />
+    <button class="btn btn-danger ms-2" (click)="removeOption(i)" *ngIf="newPoll.options.length > 1">Remove</button>
+  </div>
+
+  <button class="btn btn-secondary mb-3" (click)="addOption()">Add Option</button>
+  <br />
+  <button (click)="createPoll()" class="btn btn-primary">Create Poll</button>
+
+  <h2 class="mt-4 text-center">Available Polls</h2>
+
+  <div class="polls-list">
+    <div *ngIf="polls.length === 0">
+      <p>No polls available.</p>
+    </div>
+
+    <div *ngFor="let poll of polls" class="card mb-3">
+      <div class="card-body">
+        <h5 class="card-title">{{ poll.question }}</h5>
+        <ul class="list-group list-group-flush">
+          <li *ngFor="let option of poll.options; let i = index" class="list-group-item d-flex justify-content-between align-items-center">
+            {{ option.voteOption }}
+            <button (click)="vote(poll.id, i)" class="btn btn-outline-primary">
+              Vote ({{ option.voteCount }})
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
